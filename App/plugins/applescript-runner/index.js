@@ -5,8 +5,6 @@ var ChildProcess = require('child_process');
 module.exports = {
   getActiveWindowTitle: function(request, reply) {
     ChildProcess.exec('AppleScript/ActiveWindowTitle.AppleScript', function (error, stdout, stderr) {
-      console.log('stdout:', stdout);
-      console.log('stderr:', stderr);
       reply(stdout);
     });
   },
