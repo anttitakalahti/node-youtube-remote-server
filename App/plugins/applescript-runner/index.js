@@ -26,5 +26,19 @@ module.exports = {
         });
       }
     });
+  },
+  decreaseVolume: function(request, reply) {
+    ChildProcess.exec('osascript -e "set volume output volume (output volume of (get volume settings) - 5) --100%"', function(error, stdout, stderr) {
+      ChildProcess.exec('osascript -e "output volume of (get volume settings)"', function(err, out, e) {
+        reply(out);
+      });
+    });
+  },
+  increaseVolume: function(request, reply) {
+    ChildProcess.exec('osascript -e "set volume output volume (output volume of (get volume settings) + 5) --100%"', function(error, stdout, stderr) {
+      ChildProcess.exec('osascript -e "output volume of (get volume settings)"', function(err, out, e) {
+        reply(out);
+      });
+    });
   }
 };

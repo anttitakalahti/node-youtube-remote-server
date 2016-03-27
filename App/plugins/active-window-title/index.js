@@ -27,6 +27,28 @@ exports.register = function(server, options, next) {
           reply({ result: request.pre.result });
         }
       }
+    },
+    {
+      path: '/decrease-volume', method: 'GET',
+      config: {
+        pre: [
+          { method: AppleScript.decreaseVolume, assign: 'volume' }
+        ],
+        handler: function(request, reply) {
+          reply({ volume: request.pre.volume });
+        }
+      }
+    },
+    {
+      path: '/increase-volume', method: 'GET',
+      config: {
+        pre: [
+          { method: AppleScript.increaseVolume, assign: 'volume' }
+        ],
+        handler: function(request, reply) {
+          reply({ volume: request.pre.volume });
+        }
+      }
     }
   ]);
 
