@@ -13,4 +13,4 @@ tell application "System Events"
     end tell
 end tell
 
-return {frontAppName, windowTitle}
+return { frontAppName, windowTitle }

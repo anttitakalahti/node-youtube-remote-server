@@ -12,6 +12,8 @@ exports.register = function(server, options, next) {
           { method: AppleScript.getActiveWindowTitle, assign: 'activeWindowTitle' }
         ],
         handler: function(request, reply) {
+          console.log('request.pre.activeWindowTitle:', request.pre.activeWindowTitle);
+
           reply({ title: request.pre.activeWindowTitle });
         }
       }
@@ -21,10 +23,29 @@ exports.register = function(server, options, next) {
       path: '/toggle-video',
       config: {
         pre: [
-          { method: AppleScript.toggleYoutubeVideo, assign: 'result' }
+          { method: AppleScript.getActiveWindowTitle, assign: 'activeWindowTitle' },
+          [
+            { method: AppleScript.toggleYoutubeVideo, assign: 'resultYoutube' },
+            { method: AppleScript.toggleVLCVideo, assign: 'resultVlc' }
+          ]
         ],
         handler: function(request, reply) {
-          reply({ result: request.pre.result });
+          if (request.pre.resultYoutube.success) {
+
+            reply({
+              result: request.pre.resultYoutube,
+              title: request.pre.activeWindowTitle
+            });
+          } else if (request.pre.resultVlc.success) {
+
+            reply({
+              result: request.pre.resultVlc,
+              title: request.pre.activeWindowTitle
+            });
+          } else {
+
+            reply({ result: false });
+          }
         }
       }
     },
@@ -35,6 +56,7 @@ exports.register = function(server, options, next) {
           { method: AppleScript.decreaseVolume, assign: 'volume' }
         ],
         handler: function(request, reply) {
+
           reply({ volume: request.pre.volume });
         }
       }
@@ -46,6 +68,7 @@ exports.register = function(server, options, next) {
           { method: AppleScript.increaseVolume, assign: 'volume' }
         ],
         handler: function(request, reply) {
+
           reply({ volume: request.pre.volume });
         }
       }
